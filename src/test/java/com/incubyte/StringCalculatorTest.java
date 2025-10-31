@@ -80,6 +80,27 @@ public class StringCalculatorTest {
 		);
 		assertEquals("negatives not allowed: -2,-4", exception.getMessage());
 	}
+
+	@Test
+	void numbersGreaterThan1000AreIgnored() {
+		StringCalculator calc = new StringCalculator();
+		int result = calc.add("2,1001");
+		assertEquals(2, result);
+	}
+
+	@Test
+	void number1000IsIncluded() {
+		StringCalculator calc = new StringCalculator();
+		int result = calc.add("1000,1");
+		assertEquals(1001, result);
+	}
+
+	@Test
+	void multipleLargeNumbersAreIgnored() {
+		StringCalculator calc = new StringCalculator();
+		int result = calc.add("1001,1002,3");
+		assertEquals(3, result);
+	}
 }
 
 
