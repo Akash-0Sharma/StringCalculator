@@ -31,6 +31,20 @@ public class StringCalculatorTest {
 		int result = calc.add("1,2,3,4");
 		assertEquals(10, result);
 	}
+
+	@Test
+	void newlinesAndCommasAreValidDelimiters() {
+		StringCalculator calc = new StringCalculator();
+		int result = calc.add("1\n2,3");
+		assertEquals(6, result);
+	}
+
+	@Test
+	void multipleNewlinesAlsoWork() {
+		StringCalculator calc = new StringCalculator();
+		int result = calc.add("4\n5\n6");
+		assertEquals(15, result);
+	}
 }
 
 
