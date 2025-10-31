@@ -101,6 +101,35 @@ public class StringCalculatorTest {
 		int result = calc.add("1001,1002,3");
 		assertEquals(3, result);
 	}
+	
+	@Test
+	void delimiterOfAnyLengthInBracketsWorks() {
+		StringCalculator calc = new StringCalculator();
+		int result = calc.add("//[***]\n1***2***3");
+		assertEquals(6, result);
+	}
+
+	@Test
+	void customMultiCharDelimiterWithDifferentChars() {
+		StringCalculator calc = new StringCalculator();
+		int result = calc.add("//[abc]\n4abc5abc6");
+		assertEquals(15, result);
+	}
+
+	@Test
+	void delimiterWithSpecialRegexCharsRequiresExtraction() {
+		StringCalculator calc = new StringCalculator();
+		int result = calc.add("//[.*]\n1.*2.*3");
+		assertEquals(6, result);
+	}
+
+	@Test
+	void multipleDelimitersInBracketsShouldFail() {
+		StringCalculator calc = new StringCalculator();
+		int result = calc.add("//[*][%]\n1*2%3");
+		assertEquals(6, result);
+	}
+
 }
 
 
