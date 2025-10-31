@@ -2,6 +2,7 @@ package com.incubyte;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class StringCalculatorTest {
 	@Test
@@ -58,6 +59,26 @@ public class StringCalculatorTest {
 		StringCalculator calc = new StringCalculator();
 		int result = calc.add("//;\n1;2;3");
 		assertEquals(6, result);
+	}
+
+	@Test
+	void singleNegativeNumberThrowsException() {
+		StringCalculator calc = new StringCalculator();
+		IllegalArgumentException exception = assertThrows(
+			IllegalArgumentException.class,
+			() -> calc.add("1,-2,3")
+		);
+		assertEquals("negatives not allowed: -2", exception.getMessage());
+	}
+
+	@Test
+	void multipleNegativeNumbersThrowsExceptionWithAllNegatives() {
+		StringCalculator calc = new StringCalculator();
+		IllegalArgumentException exception = assertThrows(
+			IllegalArgumentException.class,
+			() -> calc.add("1,-2,-4,3")
+		);
+		assertEquals("negatives not allowed: -2,-4", exception.getMessage());
 	}
 }
 
