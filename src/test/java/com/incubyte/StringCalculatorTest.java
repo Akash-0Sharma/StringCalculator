@@ -45,6 +45,20 @@ public class StringCalculatorTest {
 		int result = calc.add("4\n5\n6");
 		assertEquals(15, result);
 	}
+
+	@Test
+	void customSingleCharDelimiterWorks() {
+		StringCalculator calc = new StringCalculator();
+		int result = calc.add("//;\n1;2");
+		assertEquals(3, result);
+	}
+
+	@Test
+	void customDelimiterWithMultipleNumbers() {
+		StringCalculator calc = new StringCalculator();
+		int result = calc.add("//;\n1;2;3");
+		assertEquals(6, result);
+	}
 }
 
 
