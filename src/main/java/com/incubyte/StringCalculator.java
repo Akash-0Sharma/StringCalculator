@@ -5,7 +5,15 @@ public class StringCalculator {
 		if (numbers == null || numbers.isEmpty()) {
 			return 0;
 		}
-		throw new UnsupportedOperationException("Not implemented yet");
+		String[] parts = numbers.split(",");
+		int sum = 0;
+		for (String part : parts) {
+			if (part.isEmpty()) {
+				continue;
+			}
+			sum += Integer.parseInt(part);
+		}
+		return sum;
 	}
 }
 
