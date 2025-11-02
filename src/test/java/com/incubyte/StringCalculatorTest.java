@@ -124,12 +124,18 @@ public class StringCalculatorTest {
 	}
 
 	@Test
-	void multipleDelimitersInBracketsShouldFail() {
+	void multipleDelimitersInBrackets() {
 		StringCalculator calc = new StringCalculator();
 		int result = calc.add("//[*][%]\n1*2%3");
 		assertEquals(6, result);
 	}
 
+	@Test
+	void multipleDelimitersWithDifferentLengths() {
+		StringCalculator calc = new StringCalculator();
+		int result = calc.add("//[aa][bbb]\n1aa2bbb3");
+		assertEquals(6, result);
+	}
 }
 
 
