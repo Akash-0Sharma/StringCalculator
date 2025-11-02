@@ -2,6 +2,7 @@ package com.incubyte;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -22,11 +23,26 @@ public class StringCalculator {
 			String delimiterPart = numbers.substring(2, newlineIndex);
 			numbersToProcess = numbers.substring(newlineIndex + 1);
 			
-			// Check if delimiter is in brackets format
-			if (delimiterPart.startsWith("[") && delimiterPart.endsWith("]")) {
-				// Extract delimiter from brackets and escape regex special characters
-				String extractedDelimiter = delimiterPart.substring(1, delimiterPart.length() - 1);
-				delimiter = Pattern.quote(extractedDelimiter);
+			// Check if delimiter is in brackets format (single or multiple)
+			if (delimiterPart.startsWith("[")) {
+				// Extract all delimiters from brackets: [delim1][delim2]...
+				List<String> delimiters = new ArrayList<>();
+				Pattern bracketPattern = Pattern.compile("\\[(.*?)\\]");
+				Matcher matcher = bracketPattern.matcher(delimiterPart);
+				while (matcher.find()) {
+					delimiters.add(matcher.group(1));
+				}
+				
+				if (!delimiters.isEmpty()) {
+					// Escape each delimiter and combine with | (OR operator)
+					delimiter = delimiters.stream()
+						.map(Pattern::quote)
+						.collect(Collectors.joining("|"));
+				} else {
+					// Fallback to single bracket extraction
+					String extractedDelimiter = delimiterPart.substring(1, delimiterPart.length() - 1);
+					delimiter = Pattern.quote(extractedDelimiter);
+				}
 			} else {
 				// Single character delimiter 
 				delimiter = delimiterPart;
